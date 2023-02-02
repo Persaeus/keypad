@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Nihilsen\Cipher\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class CipherCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'cipher';
 
     public $description = 'My command';
 
