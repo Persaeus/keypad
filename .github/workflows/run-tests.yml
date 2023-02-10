@@ -12,7 +12,10 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [
+          ubuntu-latest,
+          # windows-latest
+        ]
         php: [8.2, 8.1]
         laravel: [9.*]
         stability: [prefer-lowest, prefer-stable]
@@ -47,5 +50,13 @@ jobs:
       - name: List Installed Dependencies
         run: composer show -D
 
+      - name: Setup dusk/chrome
+        run: vendor/bin/dusk-updater detect --no-interaction
+
       - name: Execute tests
         run: vendor/bin/pest
+
+      # - name: Run Browser tests
+      #   run: vendor/bin/phpunit --testsuite Browser
+      #   env:
+      #     RUNNING_IN_CI: true

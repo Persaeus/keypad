@@ -1,15 +1,26 @@
 <?php
 
-namespace Nihilsen\Cipher\Tests;
+namespace Nihilsen\Cipher\Tests\Browser;
 
-use Orchestra\Testbench\TestCase as Orchestra;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 use Nihilsen\Cipher\CipherServiceProvider;
+use Orchestra\Testbench\Dusk\TestCase as Base;
 
-class TestCase extends Orchestra
+class TestCase extends Base
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->tweakApplication(function () {
+            Route::get('/browser-tests', function () {
+                return View::file(__DIR__.'/views/test.blade.php');
+            });
+        });
     }
 
     protected function getPackageProviders($app)

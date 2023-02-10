@@ -1,5 +1,5 @@
 <?php
 
-use Nihilsen\Cipher\Tests\TestCase;
+use Nihilsen\Cipher\Tests\Browser\TestCase;
 
-uses(TestCase::class)->in(__DIR__);
+uses(TestCase::class)->in('Browser');
