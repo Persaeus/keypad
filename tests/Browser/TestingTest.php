@@ -2,9 +2,10 @@
 
 namespace Nihilsen\Cipher\Tests\Browser;
 
+use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
 
-class ExampleTest extends TestCase
+class TestingTest extends TestCase
 {
     /**
      * A basic browser test example.
@@ -15,4 +16,11 @@ class ExampleTest extends TestCase
             $browser->visit('/browser-tests')->assertSee("let's get testing!");
         });
     }
+
+    // public function test_can_run_migrations()
+    // {
+    //     expect(fn () => DB::table('users')->get())
+    //         ->not->toThrow(\Exception::class)
+    //         ->and(true)->toBeTrue();
+    // }
 }
