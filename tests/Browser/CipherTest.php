@@ -12,6 +12,7 @@ class CipherTest extends TestCase
             $browser->visit('/login')
                 ->type('@password-field', static::PLAINTEXT_PASSWORD)
                 ->press('Log in')
+                ->pause(3000)
                 ->assertPathIs('/logged-in');
         });
     }
