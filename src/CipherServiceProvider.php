@@ -49,7 +49,7 @@ class CipherServiceProvider extends PackageServiceProvider
 
     protected function registerSingleton()
     {
-        $this->app->singleton(
+        $this->app->afterResolving('auth', fn () => $this->app->singleton(
             Cipher::class,
             function (Application $app) {
                 $user = $app->request->user();
@@ -64,7 +64,7 @@ class CipherServiceProvider extends PackageServiceProvider
 
                 return new Cipher;
             }
-        );
+        ));
     }
 
     protected function registerRoutes()
