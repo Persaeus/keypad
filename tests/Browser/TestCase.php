@@ -3,15 +3,15 @@
 namespace Nihilsen\Cipher\Tests\Browser;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Nihilsen\Cipher\Facades\Cipher;
+use Nihilsen\Cipher\Tests\Models\User;
 use Nihilsen\Cipher\Tests\TestCase as Base;
 
 class TestCase extends Base
 {
-    public const PLAINTEXT_PASSWORD = 'mysecretpassword';
-
     /**
      * {@inheritDoc}
      */
@@ -29,8 +29,15 @@ class TestCase extends Base
             });
 
             Route::post('/login', function (Request $request) {
-                // Check that password is a sha256-digest of the plaintext password with the base salt prepended.
-                if ($request->input('password') == hash('sha256', Cipher::salt().static::PLAINTEXT_PASSWORD)) {
+                if (
+                    ($user = User::whereEmail($request->input('email'))->first()) &&
+                    Hash::check(
+                        $request->input('password'),
+                        $user->password
+                    )
+                ) {
+                    Auth::setUser($user);
+
                     return redirect('/logged-in');
                 }
 

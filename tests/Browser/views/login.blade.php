@@ -4,9 +4,11 @@
         <form action="/login" method="POST">
             <x-cipher::login />
 
+            <input type="type" name="email" dusk="email-field">
+
             <input type="password" name="password" dusk="password-field" />
 
-            <button type="submit">Log in</button>
+            <button type="submit" dusk="submit-button">Log in</button>
         </form>
     </body>
 </html>

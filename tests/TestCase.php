@@ -2,14 +2,11 @@
 
 namespace Nihilsen\Cipher\Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Nihilsen\Cipher\CipherServiceProvider;
 use Orchestra\Testbench\Dusk\TestCase as Base;
 
 class TestCase extends Base
 {
-    use RefreshDatabase;
-
     /**
      * Define database migrations.
      *
@@ -24,7 +21,7 @@ class TestCase extends Base
     {
         config()->set('database.default', 'testing');
 
-        // config()->set('app.debug', true);
+        config()->set('app.debug', true);
     }
 
     protected function getPackageProviders($app)
