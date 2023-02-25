@@ -2,8 +2,10 @@
 
 namespace Nihilsen\Cipher\Tests\Browser;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -50,6 +52,25 @@ class TestCase extends Base
                 return View::file(__DIR__.'/views/auth-check.blade.php');
             });
 
+            Route::get('/register', function () {
+                return View::file(__DIR__.'/views/register.blade.php');
+            });
+
+            Route::post('/register', function (Request $request) {
+                $newUser = User::unguarded(fn () => DB::transaction(fn () => User::create([
+                    'name' => $request['name'],
+                    'email' => $request['email'],
+                    'password' => Hash::make($request['password']),
+                ])));
+
+                // Dispatch "registered" event.
+                event(new Registered($newUser));
+
+                Auth::login($newUser);
+
+                return redirect('/logged-in');
+            });
+
             Route::get('/login', function () {
                 return View::file(__DIR__.'/views/login.blade.php');
             });
@@ -62,7 +83,7 @@ class TestCase extends Base
                         $user->password
                     )
                 ) {
-                    Auth::setUser($user);
+                    Auth::login($user);
 
                     return redirect('/logged-in');
                 }
@@ -80,6 +101,10 @@ class TestCase extends Base
 
             Route::get('/encrypt', function () {
                 return View::file(__DIR__.'/views/encrypt.blade.php');
+            });
+
+            Route::get('/decrypt', function () {
+                return View::file(__DIR__.'/views/decrypt.blade.php');
             });
         });
     }

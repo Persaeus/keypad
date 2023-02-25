@@ -3,6 +3,7 @@
 namespace Nihilsen\Cipher\Tests;
 
 use Nihilsen\Cipher\CipherServiceProvider;
+use Nihilsen\Cipher\Tests\Models\User;
 use function Orchestra\Testbench\artisan;
 use Orchestra\Testbench\Dusk\TestCase as Base;
 
@@ -26,9 +27,11 @@ class TestCase extends Base
 
     public function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'sqlite');
+        config()->set('database.default', 'sqlite');
 
         config()->set('app.debug', true);
+
+        config()->set('auth.providers.users.model', User::class);
     }
 
     protected function getPackageProviders($app)

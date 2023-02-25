@@ -3,14 +3,12 @@
     <body>
         @auth
             <p>logged in</p>
-            <form action="/login" method="POST">
-                <x-cipher::login />
+            <form action="/decrypt" method="GET">
+                <x-cipher::encrypt target="message" />
 
-                <input type="type" name="email" dusk="email-field">
+                <input type="type" name="message" dusk="plaintext-field">
 
-                <input type="password" name="password" dusk="password-field" />
-
-                <button type="submit" dusk="submit-button">Log in</button>
+                <button type="submit" dusk="submit-button">Encrypt</button>
             </form>
         @endauth
     </body>

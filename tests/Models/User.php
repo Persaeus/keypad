@@ -3,9 +3,12 @@
 namespace Nihilsen\Cipher\Tests\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Nihilsen\Cipher\Cipherable;
 
 class User extends Authenticatable
 {
+    use Cipherable;
+
     public $timestamps = false;
 
     public const EMAIL = 'foo@bar.invalid';
