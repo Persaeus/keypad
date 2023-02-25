@@ -46,16 +46,8 @@ export default class Password {
      */
     static async recall() {
         const
-            stored = this.#retrieve(),
-            iv = base16.decode(stored.iv),
-            encryptedHash = base16.decode(stored.encryptedHash),
-            decryptionKey = await this.#storageEncryptionKey(iv)
-
-        const clientHash = await crypto.subtle.decrypt(
-            { name: "AES-GCM", iv },
-            decryptionKey,
-            encryptedHash
-        )
+            stored = localStorage.getItem(this.storage),
+            clientHash = base16.decode(stored)
 
         return new this({ clientHash })
     }
@@ -67,74 +59,12 @@ export default class Password {
      * @returns {Promise<Password>}
      */
     async remember() {
-        const
-            iv = crypto.getRandomValues(new Uint8Array(16)),
-            encryptionKey = await Password.#storageEncryptionKey(iv),
-            encryptedHash = await crypto.subtle.encrypt(
-                { name: "AES-GCM", iv },
-                encryptionKey,
-                await this.#hash
-            )
-
-        Password.#store(iv, encryptedHash)
-
-        return this
-    }
-
-    /**
-     * Retrieve the encrypted hash and corresponding initialization vector
-     * from local storage.
-     * 
-     * @returns {{ iv: string, encryptedHash: string }}
-     */
-    static #retrieve() {
-        return JSON.parse(localStorage.getItem(this.storage))
-    }
-
-    /**
-     * Get the key for encrypting and decrypting stored hash.
-     * 
-     * @param {ArrayBufferLike} iv 
-     * @returns {Promise<CryptoKey>}
-     */
-    static async #storageEncryptionKey(iv) {
-        console.log(this.token)
-        const importedKey = await crypto.subtle.importKey(
-            'raw',
-            encode(this.token),
-            'HKDF',
-            false,
-            ['deriveBits', 'deriveKey'],
-        )
-
-        return await crypto.subtle.deriveKey(
-            {
-                hash: 'SHA-256',
-                info: new ArrayBuffer,
-                name: 'HKDF',
-                salt: iv,
-            },
-            importedKey,
-            { name: 'AES-GCM', length: 256 },
-            true,
-            ['encrypt', 'decrypt', 'wrapKey', 'unwrapKey']
-        )
-    }
-
-    /**
-     * Store the given encrypted string using given initialization vector.
-     * 
-     * @param {string} iv 
-     * @param {string} encryptedHash 
-     */
-    static #store(iv, encryptedHash) {
         localStorage.setItem(
             this.storage,
-            JSON.stringify({
-                iv: base16.encode(iv),
-                encryptedHash: base16.encode(encryptedHash),
-            })
+            base16.encode(await this.#hash)
         )
+
+        return this
     }
 
     /**

@@ -5,6 +5,5 @@
         event="cipher"
         storage="cipher"
         salt="{{ $cipher->salt() }}"
-        token="{{ csrf_token() }}"
     ></script>
 @endonce
