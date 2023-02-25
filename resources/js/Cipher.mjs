@@ -1,4 +1,5 @@
 import Password from "./Password.mjs"
+import Script from "./Script.mjs"
 
 import base16 from "./Util/base16.mjs"
 
@@ -15,7 +16,7 @@ export default class Cipher {
     }
 
     /**
-     * Encrypt sensitive data using the given password and export the cipher.
+     * Encrypt sensitive data using the given password and export the data.
      * 
      * @param {Password} [password]
      * @returns {Promise<{ k: string, p: string, s: string }>}
@@ -64,7 +65,7 @@ export default class Cipher {
     }
 
     /**
-     * Parse and decrypt a previously exported cipher using the given password.
+     * Parse and decrypt previously exported cipher data using the given password.
      * 
      * @param {{ k: string, p: string, s: string }}
      * @param {Password} [password]
@@ -97,5 +98,18 @@ export default class Cipher {
             publicKey,
             salt,
         })
+    }
+
+    /**
+     * Resolve the cipher of currently authenticated user.
+     * 
+     * @returns {Promise<Cipher | null>}
+     */
+    static resolve() {
+        const json = Script.data
+
+        return json
+            ? this.import(JSON.parse(json))
+            : null
     }
 }

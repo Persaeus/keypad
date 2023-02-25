@@ -54,9 +54,4 @@ class Cipher extends Model implements Registers
     {
         return config('cipher.salt');
     }
-
-    public function jsonSerialize(): mixed
-    {
-        return $this->data;
-    }
 }
