@@ -8,12 +8,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('cipher_table', function (Blueprint $table) {
+        Schema::create('ciphers', function (Blueprint $table) {
             $table->id();
-
-            // add fields
-
+            $table->morphs('cipherable');
             $table->timestamps();
+            $table->json('data')->nullable();
         });
     }
 };

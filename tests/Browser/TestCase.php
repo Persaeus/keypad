@@ -5,6 +5,7 @@ namespace Nihilsen\Cipher\Tests\Browser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Nihilsen\Cipher\Facades\Cipher;
 use Nihilsen\Cipher\Tests\TestCase as Base;
 
 class TestCase extends Base
@@ -28,8 +29,8 @@ class TestCase extends Base
             });
 
             Route::post('/login', function (Request $request) {
-                // Check that password is sha256-digest of the plaintext password.
-                if ($request->input('password') == hash('sha256', static::PLAINTEXT_PASSWORD)) {
+                // Check that password is a sha256-digest of the plaintext password with the base salt prepended.
+                if ($request->input('password') == hash('sha256', Cipher::salt().static::PLAINTEXT_PASSWORD)) {
                     return redirect('/logged-in');
                 }
 

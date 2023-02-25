@@ -3,8 +3,6 @@
 namespace Nihilsen\Cipher\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\View;
 use Nihilsen\Cipher\CipherServiceProvider;
 use Orchestra\Testbench\Dusk\TestCase as Base;
 
@@ -42,18 +40,5 @@ class TestCase extends Base
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->tweakApplication(function () {
-            Route::get('/browser-tests', function () {
-                return View::file(__DIR__.'/views/example.blade.php');
-            });
-
-            Route::get('/login', function () {
-                return View::file(__DIR__.'/views/login.blade.php');
-            });
-
-            Route::post('/login', function () {
-            });
-        });
     }
 }

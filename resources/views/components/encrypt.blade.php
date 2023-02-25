@@ -1,0 +1,9 @@
+@props([
+    'cipher',
+    'input',
+])
+<x-cipher::component 
+    name="encrypt"
+    :key="$cipher->data['p']"
+    :$input
+/>
