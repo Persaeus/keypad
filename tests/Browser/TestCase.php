@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Nihilsen\Cipher\Facades\Cipher;
 use Nihilsen\Cipher\Tests\Models\User;
 use Nihilsen\Cipher\Tests\TestCase as Base;
 
@@ -20,6 +21,27 @@ class TestCase extends Base
         parent::setUp();
 
         $this->tweakApplication(function () {
+            static::createTestUser();
+            static::setUpRoutes();
+        });
+    }
+
+    protected static function createTestUser()
+    {
+        $hashedPassword = hash('sha256', Cipher::salt().User::PLAINTEXT_PASSWORD);
+
+        User::unguarded(fn () => User::firstOrCreate(
+            ['email' => User::EMAIL],
+            [
+                'name' => 'Foobar',
+                'password' => Hash::make($hashedPassword),
+            ],
+        ));
+    }
+
+    protected static function setUpRoutes()
+    {
+        Route::middleware('web')->group(function () {
             Route::get('/browser-tests', function () {
                 return View::file(__DIR__.'/views/example.blade.php');
             });
@@ -50,6 +72,10 @@ class TestCase extends Base
 
             Route::get('/failed-login', function () {
                 return 'failed login';
+            });
+
+            Route::get('/encrypt', function () {
+                return View::file(__DIR__.'/views/encrypt.blade.php');
             });
         });
     }

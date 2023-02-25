@@ -14,12 +14,12 @@ class TestCase extends Base
      */
     protected function defineDatabaseMigrations()
     {
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadLaravelMigrations();
     }
 
     public function getEnvironmentSetUp($app)
     {
-        config()->set('database.default', 'testing');
+        $app['config']->set('database.default', 'sqlite');
 
         config()->set('app.debug', true);
     }

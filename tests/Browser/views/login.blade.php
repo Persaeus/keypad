@@ -2,6 +2,8 @@
 <html>
     <body>
         <form action="/login" method="POST">
+            @csrf
+
             <x-cipher::login />
 
             <input type="type" name="email" dusk="email-field">

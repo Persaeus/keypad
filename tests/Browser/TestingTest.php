@@ -2,14 +2,11 @@
 
 namespace Nihilsen\Cipher\Tests\Browser;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
 
 class TestingTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * A basic browser test example.
      */

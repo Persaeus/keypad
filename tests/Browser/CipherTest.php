@@ -2,14 +2,11 @@
 
 namespace Nihilsen\Cipher\Tests\Browser;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Nihilsen\Cipher\Tests\Models\User;
 
 class CipherTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function test_can_intercept_and_hash_passwords_for_login()
     {
         $this->browse(function (Browser $browser) {
@@ -18,6 +15,16 @@ class CipherTest extends TestCase
                 ->type('@password-field', User::PLAINTEXT_PASSWORD)
                 ->clickAndWaitForReload('@submit-button')
                 ->assertPathIs('/logged-in');
+        });
+    }
+
+    public function test_can_log_in_as_test_user()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser
+                ->loginAs(User::test())
+                ->visit('/encrypt')
+                ->assertSee('logged in');
         });
     }
 }
