@@ -63,7 +63,7 @@ export default class Password {
      */
     async remember() {
         localStorage.setItem(
-            this.storage,
+            Password.storage,
             base16.encode(await this.#hash)
         )
 
@@ -77,18 +77,20 @@ export default class Password {
      * @param {ArrayBufferLike} salt 
      * @returns 
      */
-    async unwrap(wrappedKey, salt, unwrappedKeyAlgorithm = { name: 'RSA-OAEP' }) {
-        const unwrappingKey = await this.#wrappingKey(salt)
+    async unwrap(wrappedKey, salt, unwrappedKeyAlgorithm = { name: 'RSA-OAEP', hash: 'SHA-256' }) {
+        const
+            unwrappingKey = await this.#wrappingKey(salt),
+            unwrappedKey = await crypto.subtle.unwrapKey(
+                'pkcs8',
+                wrappedKey,
+                unwrappingKey,
+                { name: 'AES-GCM', iv: salt },
+                unwrappedKeyAlgorithm,
+                true,
+                ['decrypt']
+            )
 
-        return await crypto.subtle.unwrapKey(
-            'pkcs8',
-            wrappedKey,
-            unwrappingKey,
-            { name: 'AES-GCM', iv: salt },
-            unwrappedKeyAlgorithm,
-            true,
-            ['encrypt', 'decrypt', 'wrapKey', 'unwrapKey']
-        )
+        return unwrappedKey
     }
 
     /**
@@ -98,14 +100,16 @@ export default class Password {
      * @param {ArrayBufferLike} salt 
      */
     async wrap(key, salt) {
-        const wrappingKey = await this.#wrappingKey(salt)
+        const
+            wrappingKey = await this.#wrappingKey(salt),
+            wrappedKey = await crypto.subtle.wrapKey(
+                'pkcs8',
+                key,
+                wrappingKey,
+                { name: 'AES-GCM', iv: salt }
+            )
 
-        return await crypto.subtle.wrapKey(
-            'pkcs8',
-            key,
-            wrappingKey,
-            { name: 'AES-GCM', iv: salt }
-        )
+        return wrappedKey
     }
 
     /**

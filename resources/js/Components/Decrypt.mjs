@@ -5,10 +5,10 @@ export default class Decrypt extends Component {
     constructor(node, { cipher }) {
         super(node)
 
-        this.decrypt(Cipher.import(cipher))
+        this.decrypt(cipher)
     }
 
-    async decrypt(cipher) {
+    async decrypt(data) {
         // 
     }
 }
