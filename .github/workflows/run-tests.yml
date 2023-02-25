@@ -53,6 +53,9 @@ jobs:
       - name: Setup dusk/chrome
         run: vendor/bin/dusk-updater detect --no-interaction
 
+      - name: Create test database
+        run: vendor/orchestra/testbench-dusk/create-sqlite-db
+
       - name: Execute tests
         run: vendor/bin/pest
 
