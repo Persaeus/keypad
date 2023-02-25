@@ -17,6 +17,9 @@ export default class Password {
 
     static token = Script.token
 
+    /**
+     * @param {{ clientHash: ArrayBufferLike, serverHash: ArrayBufferLike }} param0 
+     */
     constructor({ clientHash, serverHash = null }) {
         this.#hash = clientHash
 
