@@ -46,6 +46,10 @@ class TestCase extends Base
                 return View::file(__DIR__.'/views/example.blade.php');
             });
 
+            Route::get('/auth-check', function () {
+                return View::file(__DIR__.'/views/auth-check.blade.php');
+            });
+
             Route::get('/login', function () {
                 return View::file(__DIR__.'/views/login.blade.php');
             });

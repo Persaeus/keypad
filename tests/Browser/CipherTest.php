@@ -23,7 +23,7 @@ class CipherTest extends TestCase
         $this->browse(function (Browser $browser) {
             $browser
                 ->loginAs(User::test())
-                ->visit('/encrypt')
+                ->visit('/auth-check')
                 ->assertSee('logged in');
         });
     }
