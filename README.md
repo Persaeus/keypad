@@ -1,19 +1,15 @@
-# Client-side cryptography framework for Laravel using Blade components and AlpineJS.
+# Keypad 🎹 for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/nihilsen/keypad.svg?style=flat-square)](https://packagist.org/packages/nihilsen/keypad)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/nihilsen/keypad/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/nihilsen/keypad/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/nihilsen/keypad/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/nihilsen/keypad/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/nihilsen/keypad.svg?style=flat-square)](https://packagist.org/packages/nihilsen/keypad)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+_Keypad_ is a Laravel package that aims to make it easier to add client-side encryption and decryption to your Laravel applications.
 
-## Support us
+Keypad offers a suite of reactive Blade components that can be inserted into your existing authentication forms.
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/Keypad.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/Keypad)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Under the hood, Keypad uses browser-native [_Web Crypto API_](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API).
 
 ## Installation
 
@@ -23,10 +19,9 @@ You can install the package via composer:
 composer require nihilsen/keypad
 ```
 
-You can publish and run the migrations with:
+You can run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="keypad-migrations"
 php artisan migrate
 ```
 
@@ -38,41 +33,107 @@ php artisan vendor:publish --tag="keypad-config"
 
 This is the contents of the published config file:
 
-```php
-return [
-];
+https://github.com/nihilsen/keypad/blob/14e862c555354edbf36fa851c09a167114930a98/config/keypad.php#L3-L23
+
+## Components and usage
+
+### Login: `<x-keypad::login>`
+
+```blade
+
+<form method="POST" action="/login/">
+    {{ -- CSRF token -- }}
+    @csrf
+    
+    {{ -- email field -- }}
+    <input type="email" name="email_field" placeholder="email" />
+    
+    {{ -- password field -- }}
+    <input type="password" name="password_field" placeholder="password" />
+    
+    {{ -- Keypad "login" component -- }}
+    <x-keypad::login password="password_field" />
+    
+    {{ -- other form elements, submit button, etc ... -- }}
+</form>
+
 ```
 
-Optionally, you can publish the views using
+### Register: `<x-keypad::register>`
 
-```bash
-php artisan vendor:publish --tag="keypad-views"
+```blade
+
+<form method="POST" action="/register/">
+    {{ -- CSRF token -- }}
+    @csrf
+    
+    {{ -- email field -- }}
+    <input type="email" name="email_field" placeholder="email" />
+    
+    {{ -- password field -- }}
+    <input type="password" name="password_field" placeholder="password" />
+    
+    {{ -- confirm password field -- }}
+    <input type="password" name="confirm_password_field" placeholder="confirm password" />
+    
+    {{ -- Keypad "register" component -- }}
+    <x-keypad::register password="password_field" confirmation="confirm_password_field" />
+    
+    {{ -- other form elements, submit button, etc ... -- }}
+</form>
+
 ```
 
-## Usage
+### Encrypt: `<x-keypad::encrypt>`
 
-```php
-$keypad = new Nihilsen\Keypad();
-echo $keypad->echoPhrase('Hello, Nihilsen!');
+```blade
+
+<form method="POST" action="/send_message/">
+    {{ -- CSRF token -- }}
+    @csrf
+    
+    {{ -- plaintext message field -- }}
+    <input type="text" name="secret_message" placeholder="Enter your message" />
+    
+    {{ -- get recipient keypad -- }}
+    @php
+        $recipient = User::find($__GET['recipient_id']);
+        $keypad = $recipient->keypad;
+    @endphp
+    
+    {{ -- Keypad "encrypt" component -- }}
+    <x-keypad::encrypt target="secret_message" :$keypad />
+    
+    {{ -- other form elements, submit button, etc ... -- }}
+</form>
+
 ```
 
-## Testing
+### Decrypt: `<x-keypad::decrypt>`
 
-```bash
-composer test
+```blade
+
+<x-keypad::decrypt>{{ $message->secret_message }}</x-keypad::decrypt>
+
 ```
 
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
+## Roadmap
+
+- [x] `<x-kepyad::login />`
+- [x] `<x-kepyad::register />`
+- [x] `<x-kepyad::encrypt />`
+- [x] `<x-kepyad::decrypt />`
+- [ ] `<x-kepyad::hash />`
+- [ ] `<x-kepyad::change-password />`
+- [ ] `<x-kepyad::recover />`
+
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+- Pull requests, bug reports and feature requests are welcome.
 
 ## Credits
 
