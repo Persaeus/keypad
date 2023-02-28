@@ -6,12 +6,12 @@ class KeypadJavaScriptAssets
 {
     public function source()
     {
-        return $this->pretendResponseIsFile(__DIR__ . '/../../resources/dist/keypad.js');
+        return $this->pretendResponseIsFile(__DIR__.'/../../resources/dist/keypad.js');
     }
 
     public function maps()
     {
-        return $this->pretendResponseIsFile(__DIR__ . '/../../resources/dist/keypad.js.map');
+        return $this->pretendResponseIsFile(__DIR__.'/../../resources/dist/keypad.js.map');
     }
 
     protected function pretendResponseIsFile($file, $mimeType = 'application/javascript')

@@ -25,8 +25,8 @@ trait Keypadded
                 $user = $event->user;
 
                 if (
-                    !$user instanceof static ||
-                    !$user->keypad instanceof Registers
+                    ! $user instanceof static ||
+                    ! $user->keypad instanceof Registers
                 ) {
                     return;
                 }
