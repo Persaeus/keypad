@@ -4,7 +4,7 @@
         <form action="/register" method="POST">
             @csrf
 
-            <x-cipher::register :confirmation="false" />
+            <x-keypad::register :confirmation="false" />
 
             <input type="text" name="name" value="Placeholder Name">
 

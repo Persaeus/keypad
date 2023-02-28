@@ -1,6 +1,6 @@
 <?php
 
-namespace Nihilsen\Cipher\Tests\Browser;
+namespace Nihilsen\Keypad\Tests\Browser;
 
 use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
@@ -19,7 +19,7 @@ class TestingTest extends TestCase
 
     public function test_can_run_migrations()
     {
-        expect(fn () => DB::table('ciphers')->get())
+        expect(fn () => DB::table('keypads')->get())
             ->not->toThrow(\Exception::class)
             ->and(true)->toBeTrue();
     }

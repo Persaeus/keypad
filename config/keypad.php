@@ -18,6 +18,6 @@ return [
     |
     */
 
-    'salt' => env('CIPHER_SALT', 'e3e2d8ea727465c65d20d23716059a61'),
+    'salt' => env('KEYPAD_SALT', 'e3e2d8ea727465c65d20d23716059a61'),
 
 ];

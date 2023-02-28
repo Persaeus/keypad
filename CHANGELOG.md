@@ -1,3 +1,3 @@
 # Changelog
 
-All notable changes to `Cipher` will be documented in this file.
+All notable changes to `Keypad` will be documented in this file.

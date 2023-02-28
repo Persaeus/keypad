@@ -13,7 +13,7 @@ export default class Fieldset extends FormControl {
      */
     input(name) {
         const
-            attribute = 'data-cipher-input',
+            attribute = 'data-keypad-input',
             items = this.inputs(name)
 
         items.forEach(item => item.setAttribute(attribute, name))

@@ -1,12 +1,12 @@
 {
-    "name": "nihilsen/cipher",
+    "name": "nihilsen/keypad",
     "description": "Client-side cryptography framework for Laravel using Blade components and AlpineJS.",
     "keywords": [
         "nihilsen",
         "laravel",
-        "cipher"
+        "keypad"
     ],
-    "homepage": "https://github.com/nihilsen/cipher",
+    "homepage": "https://github.com/nihilsen/keypad",
     "license": "MIT",
     "authors": [
         {
@@ -32,12 +32,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Nihilsen\\Cipher\\": "src"
+            "Nihilsen\\Keypad\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Nihilsen\\Cipher\\Tests\\": "tests"
+            "Nihilsen\\Keypad\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -57,10 +57,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Nihilsen\\Cipher\\CipherServiceProvider"
+                "Nihilsen\\Keypad\\KeypadServiceProvider"
             ],
             "aliases": {
-                "Cipher": "Nihilsen\\Cipher\\Facades\\Cipher"
+                "Keypad": "Nihilsen\\Keypad\\Facades\\Keypad"
             }
         }
     },

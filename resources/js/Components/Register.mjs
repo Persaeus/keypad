@@ -1,4 +1,4 @@
-import Cipher from "../Cipher.mjs";
+import Keypad from "../Keypad.mjs";
 import Fieldset from "./Fieldset.mjs";
 import Password from "../Password.mjs";
 
@@ -33,10 +33,10 @@ export default class Register extends Fieldset {
         }
 
         const
-            cipher = await Cipher.generate(),
-            exported = await cipher.export(password),
+            keypad = await Keypad.generate(),
+            exported = await keypad.export(password),
             json = JSON.stringify(exported)
 
-        this.output('_cipher', json)
+        this.output('_keypad', json)
     }
 }

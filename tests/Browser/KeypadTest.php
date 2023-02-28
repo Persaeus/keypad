@@ -1,11 +1,11 @@
 <?php
 
-namespace Nihilsen\Cipher\Tests\Browser;
+namespace Nihilsen\Keypad\Tests\Browser;
 
 use Laravel\Dusk\Browser;
-use Nihilsen\Cipher\Tests\Models\User;
+use Nihilsen\Keypad\Tests\Models\User;
 
-class CipherTest extends TestCase
+class KeypadTest extends TestCase
 {
     public function test_can_intercept_and_hash_passwords_for_login()
     {

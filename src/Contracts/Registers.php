@@ -1,6 +1,6 @@
 <?php
 
-namespace Nihilsen\Cipher\Contracts;
+namespace Nihilsen\Keypad\Contracts;
 
 use Illuminate\Auth\Events\Registered;
 

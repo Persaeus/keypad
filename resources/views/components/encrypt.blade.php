@@ -1,9 +1,9 @@
 @props([
     'target',
-    'cipher' => $cipher,
+    'keypad' => $keypad,
 ])
-<x-cipher::component
+<x-keypad::component
     name="encrypt"
-    :key="$cipher->data['p']"
+    :key="$keypad->data['p']"
     :$target
 />

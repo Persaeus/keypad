@@ -1,7 +1,7 @@
 @props([
     'password' => 'password'
 ])
-<x-cipher::component
+<x-keypad::component
     name="login"
     :$password
 />

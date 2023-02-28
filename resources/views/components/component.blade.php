@@ -3,10 +3,10 @@
     'tag' => 'fieldset',
     'hidden' => true,
 ])
-<x-cipher::script />
-<x-cipher::element
+<x-keypad::script />
+<x-keypad::element
     :$tag
     :$hidden
-    :data-cipher-component="$name"
-    :data-cipher-attributes="json_encode([...$attributes])"
->{{ $slot }}</x-cipher::element>
+    :data-keypad-component="$name"
+    :data-keypad-attributes="json_encode([...$attributes])"
+>{{ $slot }}</x-keypad::element>
