@@ -37,7 +37,7 @@ class Keypad extends Model implements Registers
     {
         $json = request('_keypad');
 
-        /** @var object{k:string,p:string,s:string,} */
+        /** @var object{k:string,p:string,s:string} */
         $keypad = json_decode($json, flags: JSON_THROW_ON_ERROR);
 
         $this->data = $keypad;
