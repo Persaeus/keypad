@@ -1,6 +1,6 @@
 {
     "name": "nihilsen/keypad",
-    "description": "Client-side cryptography framework for Laravel using Blade components and AlpineJS.",
+    "description": "Client-side cryptography framework for Laravel using Blade components and native Web Crypto API.",
     "keywords": [
         "nihilsen",
         "laravel",
