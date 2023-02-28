@@ -1,16 +1,16 @@
 <?php
 
-namespace Nihilsen\Cipher;
+namespace Nihilsen\Keypad;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\View as Renderable;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Nihilsen\Cipher\Controllers\CipherJavaScriptAssets;
+use Nihilsen\Keypad\Controllers\KeypadJavaScriptAssets;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class CipherServiceProvider extends PackageServiceProvider
+class KeypadServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -20,9 +20,9 @@ class CipherServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name($name = 'cipher')
+            ->name($name = 'keypad')
             ->hasViews($name)
-            ->hasMigration('0000_00_00_000001_create_ciphers_table')
+            ->hasMigration('0000_00_00_000001_create_keypads_table')
             ->runsMigrations()
             ->hasConfigFile();
     }
@@ -32,9 +32,9 @@ class CipherServiceProvider extends PackageServiceProvider
      */
     public function packageBooted()
     {
-        // Share the $cipher variable with all cipher views, except when already set.
+        // Share the $keypad variable with all keypad views, except when already set.
         View::composer("{$this->package->name}::*", function (Renderable $view) {
-            $view->with('cipher', $view->cipher ?? $this->app->make(Cipher::class));
+            $view->with('keypad', $view->keypad ?? $this->app->make(Keypad::class));
         });
     }
 
@@ -50,26 +50,26 @@ class CipherServiceProvider extends PackageServiceProvider
     protected function registerSingleton()
     {
         $this->app->afterResolving('auth', fn () => $this->app->singleton(
-            Cipher::class,
+            Keypad::class,
             function (Application $app) {
                 $user = $app->request->user();
 
                 if (
                     $user &&
-                    array_key_exists(Cipherable::class, class_uses_recursive($user))
+                    array_key_exists(Keypadded::class, class_uses_recursive($user))
                 ) {
-                    /** @var \Nihilsen\Cipher\Cipherable $user */
-                    return $user->cipher;
+                    /** @var \Nihilsen\Keypad\Keypadded $user */
+                    return $user->keypad;
                 }
 
-                return new Cipher;
+                return new Keypad;
             }
         ));
     }
 
     protected function registerRoutes()
     {
-        Route::get('/cipher/cipher.js', [CipherJavaScriptAssets::class, 'source']);
-        Route::get('/cipher/cipher.js.map', [CipherJavaScriptAssets::class, 'maps']);
+        Route::get('/keypad/keypad.js', [KeypadJavaScriptAssets::class, 'source']);
+        Route::get('/keypad/keypad.js.map', [KeypadJavaScriptAssets::class, 'maps']);
     }
 }

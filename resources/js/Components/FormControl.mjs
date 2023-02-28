@@ -18,7 +18,7 @@ export default class FormControl extends Component {
      */
     onSubmit(callback) {
         if (!this.form) {
-            throw new Error(`Cipher component "${this.constructor.name.toLowerCase()}" must be inside <form> element to intercept submit.`)
+            throw new Error(`Keypad component "${this.constructor.name.toLowerCase()}" must be inside <form> element to intercept submit.`)
         }
 
         Event.intercept('submit')

@@ -5,8 +5,8 @@ export default {
     output: {
         format: 'umd',
         sourcemap: true,
-        name: 'Cipher',
-        file: 'resources/dist/cipher.js',
+        name: 'Keypad',
+        file: 'resources/dist/keypad.js',
     },
     plugins: [terser()]
 }

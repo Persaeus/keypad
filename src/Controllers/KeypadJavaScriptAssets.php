@@ -1,17 +1,17 @@
 <?php
 
-namespace Nihilsen\Cipher\Controllers;
+namespace Nihilsen\Keypad\Controllers;
 
-class CipherJavaScriptAssets
+class KeypadJavaScriptAssets
 {
     public function source()
     {
-        return $this->pretendResponseIsFile(__DIR__.'/../../resources/dist/cipher.js');
+        return $this->pretendResponseIsFile(__DIR__ . '/../../resources/dist/keypad.js');
     }
 
     public function maps()
     {
-        return $this->pretendResponseIsFile(__DIR__.'/../../resources/dist/cipher.js.map');
+        return $this->pretendResponseIsFile(__DIR__ . '/../../resources/dist/keypad.js.map');
     }
 
     protected function pretendResponseIsFile($file, $mimeType = 'application/javascript')

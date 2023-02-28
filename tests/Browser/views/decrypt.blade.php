@@ -2,7 +2,7 @@
 <html>
     <body>
         @auth
-            <x-cipher::decrypt>{{ $_GET['message'] }}</x-cipher::decrypt>
+            <x-keypad::decrypt>{{ $_GET['message'] }}</x-keypad::decrypt>
         @endauth
     </body>
 </html>

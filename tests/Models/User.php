@@ -1,13 +1,13 @@
 <?php
 
-namespace Nihilsen\Cipher\Tests\Models;
+namespace Nihilsen\Keypad\Tests\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Nihilsen\Cipher\Cipherable;
+use Nihilsen\Keypad\Keypadded;
 
 class User extends Authenticatable
 {
-    use Cipherable;
+    use Keypadded;
 
     public $timestamps = false;
 

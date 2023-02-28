@@ -1,7 +1,7 @@
 @props(['tag' => 'span'])
 @auth
-    <x-cipher::component
+    <x-keypad::component
         name="decrypt"
         :$tag
-    >{{ $slot }}</x-cipher::component>
+    >{{ $slot }}</x-keypad::component>
 @endauth

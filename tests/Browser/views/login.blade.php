@@ -4,7 +4,7 @@
         <form action="/login" method="POST">
             @csrf
 
-            <x-cipher::login />
+            <x-keypad::login />
 
             <input type="type" name="email" dusk="email-field">
 

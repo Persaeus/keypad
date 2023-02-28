@@ -3,7 +3,7 @@ import Script from "./Script.mjs"
 
 import base16 from "./Util/base16.mjs"
 
-export default class Cipher {
+export default class Keypad {
     /**
      * @param {{ salt: ArrayBufferLike, privateKey: CryptoKey, publicKey: CryptoKey }}
      */
@@ -39,9 +39,9 @@ export default class Cipher {
     }
 
     /**
-     * Generate a new cipher.
+     * Generate a new keypad.
      * 
-     * @returns {Promise<Cipher>}
+     * @returns {Promise<Keypad>}
      */
     static async generate() {
         const
@@ -65,11 +65,11 @@ export default class Cipher {
     }
 
     /**
-     * Parse and decrypt previously exported cipher data using the given password.
+     * Parse and decrypt previously exported keypad data using the given password.
      * 
      * @param {{ k: string, p: string, s: string }}
      * @param {Password} [password]
-     * @returns {Promise<Cipher>}
+     * @returns {Promise<Keypad>}
      */
     static async import({ k, p, s }, password = null) {
         password ??= await Password.recall()
@@ -101,9 +101,9 @@ export default class Cipher {
     }
 
     /**
-     * Resolve the cipher of currently authenticated user.
+     * Resolve the keypad of currently authenticated user.
      * 
-     * @returns {Promise<Cipher | null>}
+     * @returns {Promise<Keypad | null>}
      */
     static resolve() {
         const json = Script.data

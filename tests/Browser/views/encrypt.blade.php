@@ -4,7 +4,7 @@
         @auth
             <p>logged in</p>
             <form action="/decrypt" method="GET">
-                <x-cipher::encrypt target="message" />
+                <x-keypad::encrypt target="message" />
 
                 <input type="type" name="message" dusk="plaintext-field">
 

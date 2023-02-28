@@ -2,7 +2,7 @@
     'password'     => 'password',
     'confirmation' => 'password_confirmation',
 ])
-<x-cipher::component
+<x-keypad::component
     name="register"
     :$password
     :$confirmation

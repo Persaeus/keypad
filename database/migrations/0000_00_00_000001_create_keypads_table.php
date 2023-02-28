@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('ciphers', function (Blueprint $table) {
+        Schema::create('keypads', function (Blueprint $table) {
             $table->id();
-            $table->morphs('cipherable');
+            $table->morphs('keypadded');
             $table->timestamps();
             $table->json('data')->nullable();
         });
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ciphers');
+        Schema::dropIfExists('keypads');
     }
 };

@@ -1,9 +1,9 @@
 <?php
 
-namespace Nihilsen\Cipher\Tests;
+namespace Nihilsen\Keypad\Tests;
 
-use Nihilsen\Cipher\CipherServiceProvider;
-use Nihilsen\Cipher\Tests\Models\User;
+use Nihilsen\Keypad\KeypadServiceProvider;
+use Nihilsen\Keypad\Tests\Models\User;
 use function Orchestra\Testbench\artisan;
 use Orchestra\Testbench\Dusk\TestCase as Base;
 
@@ -37,7 +37,7 @@ class TestCase extends Base
     protected function getPackageProviders($app)
     {
         return [
-            CipherServiceProvider::class,
+            KeypadServiceProvider::class,
         ];
     }
 

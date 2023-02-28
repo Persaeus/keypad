@@ -5,7 +5,7 @@ import Login from "./Components/Login.mjs"
 import Register from "./Components/Register.mjs"
 
 /**
- * Class responsible for mapping and loading the cipher components.
+ * Class responsible for mapping and loading the keypad components.
  */
 export default class Components {
     /**
@@ -22,11 +22,11 @@ export default class Components {
      * Load components on the page.
      */
     static load() {
-        document.querySelectorAll('[data-cipher-component]').forEach(node => {
+        document.querySelectorAll('[data-keypad-component]').forEach(node => {
             const
-                name = node.dataset.cipherComponent,
+                name = node.dataset.keypadComponent,
                 type = this.types[name],
-                attributes = JSON.parse(node.dataset.cipherAttributes),
+                attributes = JSON.parse(node.dataset.keypadAttributes),
                 component = new type(node, attributes)
 
             return component
