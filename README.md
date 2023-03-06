@@ -127,7 +127,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 - [x] `<x-kepyad::register />`
 - [x] `<x-kepyad::encrypt />`
 - [x] `<x-kepyad::decrypt />`
-- [ ] `<x-kepyad::hash />`
+- [x] `<x-kepyad::hash />`
 - [ ] `<x-kepyad::change-password />`
 - [ ] `<x-kepyad::recover />`
 
