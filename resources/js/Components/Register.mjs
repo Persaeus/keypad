@@ -5,11 +5,10 @@ import Password from "../Password.mjs";
 import base16 from "../Util/base16.mjs";
 
 export default class Register extends Fieldset {
-    constructor(node, { password, confirmation }) {
+    constructor(node, { password }) {
         super(node)
 
         this.password = password
-        this.confirmation = confirmation
 
         this.onSubmit(this.register)
     }
@@ -18,19 +17,6 @@ export default class Register extends Fieldset {
         const
             plaintextPassword = this.input(this.password).value,
             password = await Password.hash(plaintextPassword).remember()
-
-        this.output(this.password, base16.encode(await password.hash))
-
-        if (this.confirmation) {
-            const
-                passwordConfirmed = this.input(this.confirmation).value,
-                confirmationHash = Password.hash(passwordConfirmed).hash
-
-            this.output(
-                this.confirmation,
-                base16.encode(await confirmationHash)
-            )
-        }
 
         const
             keypad = await Keypad.generate(),

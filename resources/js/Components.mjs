@@ -1,6 +1,7 @@
 import Component from "./Components/Component.mjs"
 import Decrypt from "./Components/Decrypt.mjs"
 import Encrypt from "./Components/Encrypt.mjs"
+import Hash from "./Components/Hash.mjs"
 import Login from "./Components/Login.mjs"
 import Register from "./Components/Register.mjs"
 
@@ -14,6 +15,7 @@ export default class Components {
     static types = {
         decrypt: Decrypt,
         encrypt: Encrypt,
+        hash: Hash,
         login: Login,
         register: Register,
     }

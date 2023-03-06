@@ -5,3 +5,4 @@
     name="login"
     :$password
 />
+<x-keypad::hash :target="$password" />
