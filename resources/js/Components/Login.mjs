@@ -13,10 +13,8 @@ export default class Login extends Fieldset {
     }
 
     async login() {
-        const
-            plaintextPassword = this.input(this.password).value,
-            password = await Password.hash(plaintextPassword).remember()
+        const plaintextPassword = this.input(this.password).value
 
-        this.output(this.password, base16.encode(await password.hash))
+        await Password.hash(plaintextPassword).remember()
     }
 }
