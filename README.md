@@ -123,13 +123,13 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Roadmap
 
-- [x] `<x-kepyad::login />`
-- [x] `<x-kepyad::register />`
-- [x] `<x-kepyad::encrypt />`
-- [x] `<x-kepyad::decrypt />`
-- [x] `<x-kepyad::hash />`
-- [ ] `<x-kepyad::change-password />`
-- [ ] `<x-kepyad::recover />`
+- [x] `<x-keypad::login />`
+- [x] `<x-keypad::register />`
+- [x] `<x-keypad::encrypt />`
+- [x] `<x-keypad::decrypt />`
+- [x] `<x-keypad::hash />`
+- [x] `<x-keypad::change-password />`
+- [ ] `<x-keypad::recover />`
 
 ## Contributing
 
