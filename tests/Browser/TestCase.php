@@ -106,6 +106,20 @@ class TestCase extends Base
             Route::get('/decrypt', function () {
                 return View::file(__DIR__.'/views/decrypt.blade.php');
             });
+
+            Route::get('/change-password', function () {
+                return View::file(__DIR__.'/views/change-password.blade.php');
+            });
+
+            Route::post('/change-password', function (Request $request) {
+                if ($request['password'] == $request['password_confirmation']) {
+                    $request->user()->forceFill([
+                        'password' => Hash::make($request['password']),
+                    ])->save();
+                }
+
+                return back();
+            });
         });
     }
 }

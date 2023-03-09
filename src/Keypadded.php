@@ -5,6 +5,7 @@ namespace Nihilsen\Keypad;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Event;
+use Nihilsen\Keypad\Contracts\ChangesPassword;
 use Nihilsen\Keypad\Contracts\Registers;
 
 /**
@@ -36,6 +37,15 @@ trait Keypadded
         ] as $event => $listener) {
             Event::listen($event, $listener);
         }
+
+        static::updated(function (self $keypadded) {
+            if (
+                $keypadded->keypad instanceof ChangesPassword &&
+                $keypadded->isDirty(method_exists($keypadded, $method = 'getAuthPasswordName') ? $keypadded->$method() : 'password')
+            ) {
+                return $keypadded->keypad->changePassword();
+            }
+        });
     }
 
     public function keypad(): Relation

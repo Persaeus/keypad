@@ -5,14 +5,12 @@ import base16 from "./Util/base16.mjs"
 
 export default class Keypad {
     /**
-     * @param {{ salt: ArrayBufferLike, privateKey: CryptoKey, publicKey: CryptoKey }}
+     * @param {{ privateKey: CryptoKey, publicKey: CryptoKey }}
      */
-    constructor({ privateKey, publicKey, salt }) {
+    constructor({ privateKey, publicKey }) {
         this.privateKey = privateKey
 
         this.publicKey = publicKey
-
-        this.salt = salt
     }
 
     /**
@@ -22,10 +20,11 @@ export default class Keypad {
      * @returns {Promise<{ k: string, p: string, s: string }>}
      */
     async export(password = null) {
-        password ??= await Password.recall()
+        password ??= Password.recall()
 
         const
-            wrappedPrivateKey = password.wrap(this.privateKey, this.salt),
+            salt = crypto.getRandomValues(new Uint8Array(16)),
+            wrappedPrivateKey = password.wrap(this.privateKey, salt),
             exportedPublicKey = crypto.subtle.exportKey(
                 'spki',
                 this.publicKey
@@ -34,7 +33,7 @@ export default class Keypad {
         return {
             k: base16.encode(await wrappedPrivateKey),
             p: base16.encode(await exportedPublicKey),
-            s: base16.encode(this.salt)
+            s: base16.encode(salt)
         }
     }
 
@@ -45,23 +44,20 @@ export default class Keypad {
      */
     static async generate() {
         const
-            [salt, keyPair] = await Promise.all([
-                crypto.getRandomValues(new Uint8Array(16)),
-                crypto.subtle.generateKey(
-                    {
-                        name: 'RSA-OAEP',
-                        modulusLength: 4096,
-                        publicExponent: new Uint8Array([1, 0, 1]),
-                        hash: 'SHA-256'
-                    },
-                    true,
-                    ['encrypt', 'decrypt', 'wrapKey', 'unwrapKey']
-                )
-            ]),
+            keyPair = await crypto.subtle.generateKey(
+                {
+                    name: 'RSA-OAEP',
+                    modulusLength: 4096,
+                    publicExponent: new Uint8Array([1, 0, 1]),
+                    hash: 'SHA-256'
+                },
+                true,
+                ['encrypt', 'decrypt', 'wrapKey', 'unwrapKey']
+            ),
             privateKey = keyPair.privateKey,
             publicKey = keyPair.publicKey
 
-        return new this({ salt, privateKey, publicKey })
+        return new this({ privateKey, publicKey })
     }
 
     /**
@@ -72,7 +68,7 @@ export default class Keypad {
      * @returns {Promise<Keypad>}
      */
     static async import({ k, p, s }, password = null) {
-        password ??= await Password.recall()
+        password ??= Password.recall()
 
         const
             salt = base16.decode(s),
@@ -96,14 +92,13 @@ export default class Keypad {
         return new this({
             privateKey,
             publicKey,
-            salt,
         })
     }
 
     /**
      * Resolve the keypad of currently authenticated user.
      * 
-     * @returns {Promise<Keypad | null>}
+     * @returns {Promise<Keypad> | null}
      */
     static resolve() {
         const json = Script.data

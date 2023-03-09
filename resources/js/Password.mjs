@@ -45,12 +45,12 @@ export default class Password {
     /**
      * Recall a previously stored instance from local storage.
      * 
-     * @returns {Promise<Password>}
+     * @returns {Password}
      */
-    static async recall() {
+    static recall() {
         const
-            stored = localStorage.getItem(this.storage),
-            clientHash = base16.decode(stored)
+            stored = this.retrieve(),
+            clientHash = base16.decode(stored.pop())
 
         return new this({ clientHash })
     }
@@ -59,15 +59,50 @@ export default class Password {
      * Store the password hash in local storage, so it may be
      * recalled in a subsequent request post-authentication.
      * 
+     * @param {{ append: Boolean }}
      * @returns {Promise<Password>}
      */
-    async remember() {
+    async remember({ append = false } = {}) {
+        const
+            key = Password.storage,
+            stored = append ? Password.retrieve() : [],
+            hash = base16.encode(await this.#hash),
+            value = stored.filter(value => value != hash).concat(hash)
+
         localStorage.setItem(
-            Password.storage,
-            base16.encode(await this.#hash)
+            key,
+            value
         )
 
         return this
+    }
+
+    /**
+     * @returns {Promise<Boolean>}
+     */
+    async restore() {
+        const
+            hash = base16.encode(await this.#hash),
+            stored = Password.retrieve(),
+            index = stored.indexOf(hash)
+
+        if (index < 1) {
+            return false;
+        }
+
+        this.#hash = base16.decode(stored[index - 1])
+
+        return true
+    }
+
+    /**
+     * @returns {Array<string>}
+     */
+    static retrieve() {
+        /** @var {string | null} */
+        const stored = localStorage.getItem(this.storage)
+
+        return stored ? stored.split(',') : []
     }
 
     /**
@@ -78,19 +113,27 @@ export default class Password {
      * @returns 
      */
     async unwrap(wrappedKey, salt, unwrappedKeyAlgorithm = { name: 'RSA-OAEP', hash: 'SHA-256' }) {
-        const
-            unwrappingKey = await this.#wrappingKey(salt),
-            unwrappedKey = await crypto.subtle.unwrapKey(
-                'pkcs8',
-                wrappedKey,
-                unwrappingKey,
-                { name: 'AES-GCM', iv: salt },
-                unwrappedKeyAlgorithm,
-                true,
-                ['decrypt']
-            )
+        try {
+            const
+                unwrappingKey = await this.#wrappingKey(salt),
+                unwrappedKey = await crypto.subtle.unwrapKey(
+                    'pkcs8',
+                    wrappedKey,
+                    unwrappingKey,
+                    { name: 'AES-GCM', iv: salt },
+                    unwrappedKeyAlgorithm,
+                    true,
+                    ['decrypt']
+                )
 
-        return unwrappedKey
+            return unwrappedKey
+        } catch (error) {
+            if (await this.restore()) {
+                return await this.unwrap(wrappedKey, salt, unwrappedKeyAlgorithm)
+            }
+
+            throw error
+        }
     }
 
     /**

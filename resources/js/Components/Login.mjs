@@ -1,8 +1,6 @@
 import Fieldset from "./Fieldset.mjs";
 import Password from "../Password.mjs";
 
-import base16 from "../Util/base16.mjs";
-
 export default class Login extends Fieldset {
     constructor(node, { password }) {
         super(node)
