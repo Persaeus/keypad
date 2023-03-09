@@ -1,3 +1,4 @@
+import ChangePassword from "./Components/ChangePassword.mjs"
 import Component from "./Components/Component.mjs"
 import Decrypt from "./Components/Decrypt.mjs"
 import Encrypt from "./Components/Encrypt.mjs"
@@ -13,6 +14,7 @@ export default class Components {
      * @type {Object.<string, typeof Component>}
      */
     static types = {
+        'change-password': ChangePassword,
         decrypt: Decrypt,
         encrypt: Encrypt,
         hash: Hash,

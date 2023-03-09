@@ -6,13 +6,14 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Nihilsen\Keypad\Contracts\ChangesPassword;
 use Nihilsen\Keypad\Contracts\Registers;
 
 /**
  * @property-read \Illuminate\Database\Eloquent\Model&\Nihilsen\Keypad\Keypadded $keypadded
  * @property \ArrayObject{k:string,p:string,s:string} $data
  */
-class Keypad extends Model implements Registers
+class Keypad extends Model implements ChangesPassword, Registers
 {
     const VERSION = '0.1.0';
 
@@ -25,6 +26,11 @@ class Keypad extends Model implements Registers
         'data' => AsArrayObject::class,
     ];
 
+    public function changePassword()
+    {
+        $this->updateFromRequestData();
+    }
+
     public function keypadded(): MorphTo
     {
         return $this->morphTo();
@@ -35,14 +41,7 @@ class Keypad extends Model implements Registers
      */
     public function register(Registered $event)
     {
-        $json = request('_keypad');
-
-        /** @var object{k:string,p:string,s:string} */
-        $keypad = json_decode($json, flags: JSON_THROW_ON_ERROR);
-
-        $this->data = $keypad;
-
-        $this->save();
+        $this->updateFromRequestData();
     }
 
     public function resolve()
@@ -53,5 +52,17 @@ class Keypad extends Model implements Registers
     final public function salt(): string
     {
         return config('keypad.salt');
+    }
+
+    protected function updateFromRequestData()
+    {
+        $json = request('_keypad');
+
+        /** @var object{k:string,p:string,s:string} */
+        $data = json_decode($json, flags: JSON_THROW_ON_ERROR);
+
+        $this->data = $data;
+
+        $this->save();
     }
 }
