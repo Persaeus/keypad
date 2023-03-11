@@ -14,7 +14,7 @@ export default class Fieldset extends FormControl {
     input(name) {
         const
             attribute = 'data-keypad-input',
-            items = this.inputs(name)
+            items = this.#inputs(name)
 
         items.forEach(item => item.setAttribute(attribute, name))
 
@@ -27,7 +27,7 @@ export default class Fieldset extends FormControl {
      * @param {string} name 
      * @returns {HTMLElement[]}
      */
-    inputs(name) {
+    #inputs(name) {
         const
             item = this.form.elements.namedItem(name),
             items = typeof item[Symbol.iterator] === 'function'
@@ -57,7 +57,7 @@ export default class Fieldset extends FormControl {
         }
 
         if (overwrite) {
-            this.inputs(name).forEach(item => item.removeAttribute('name'))
+            this.#inputs(name).forEach(item => item.removeAttribute('name'))
         }
 
         return output
