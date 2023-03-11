@@ -54,6 +54,9 @@ class Keypad extends Model implements ChangesPassword, Registers
         return config('keypad.salt');
     }
 
+    /**
+     * Parse keypad data from request and set data correspondingly.
+     */
     protected function updateFromRequestData()
     {
         $json = request('_keypad');
