@@ -78,6 +78,9 @@ export default class Password {
     }
 
     /**
+     * Restore the instance from a previously stored hash,
+     * and return true if successful.
+     * 
      * @returns {Promise<Boolean>}
      */
     async restore() {
@@ -96,6 +99,8 @@ export default class Password {
     }
 
     /**
+     * Retrieve stored hashes from local storage.
+     * 
      * @returns {Array<string>}
      */
     static retrieve() {
@@ -128,6 +133,8 @@ export default class Password {
 
             return unwrappedKey
         } catch (error) {
+            // If the operation failed, it may be because the password was recently changed.
+            // So we attempt to restore to a previous password hash, and try again
             if (await this.restore()) {
                 return await this.unwrap(wrappedKey, salt, unwrappedKeyAlgorithm)
             }
