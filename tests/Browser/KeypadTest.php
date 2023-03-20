@@ -141,4 +141,29 @@ class KeypadTest extends TestCase
             }
         );
     }
+
+    public function test_can_disconnect_and_reconnect_keypad_component_then_log_in()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/login');
+
+            // Find and remove keypad components then reinsert in their original positions.
+            $browser->script('
+                document.querySelectorAll("[data-keypad-component]").forEach(original => {
+                    const
+                        clone = original.cloneNode(true),
+                        sibling = original.previousElementSibling
+                    
+                    original.remove()
+                    sibling.after(clone)
+                })
+            ');
+
+            $browser
+                ->type('@email-field', User::EMAIL)
+                ->type('@password-field', User::PLAINTEXT_PASSWORD)
+                ->clickAndWaitForReload('@submit-button', 60)
+                ->assertPathIs('/logged-in');
+        });
+    }
 }
