@@ -46,7 +46,7 @@ export default class Fieldset extends FormControl {
      * @returns 
      */
     output(name, value, overwrite = true) {
-        const output = this.node.elements.namedItem(name) ?? document.createElement('input')
+        const output = this.node.querySelector(`[name=${name}]`) ?? document.createElement('input')
 
         output.type = 'hidden'
         output.name = name

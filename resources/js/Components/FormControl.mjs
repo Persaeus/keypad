@@ -6,7 +6,9 @@ import Event from "../Event.mjs";
  */
 export default class FormControl extends Component {
     /** @type {HTMLFormElement} */
-    form = this.node.form
+    get form() {
+        return this.node.closest('form')
+    }
 
     /**
      * Intercept the submit event for the component's form using the given callback.
