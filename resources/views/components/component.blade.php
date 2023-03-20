@@ -1,6 +1,5 @@
 @props([
     'name',
-    'tag' => 'fieldset',
     'hidden' => true,
 ])
 <x-keypad::script />
